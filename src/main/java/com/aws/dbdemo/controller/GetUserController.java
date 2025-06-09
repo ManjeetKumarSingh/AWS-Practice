@@ -43,4 +43,10 @@ public class GetUserController {
         return ResponseEntity.ok("User-Saved");
     }
 
+    @GetMapping("/getUserByName/{name}")
+    public ResponseEntity<List<User>> getUserByName(@PathVariable String name){
+        List<User> userList = userRepository.getUserByUserName(name);
+        return ResponseEntity.ok(userList);
+    }
+
 }
