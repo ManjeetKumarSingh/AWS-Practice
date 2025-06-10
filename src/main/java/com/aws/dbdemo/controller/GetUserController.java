@@ -1,8 +1,10 @@
 package com.aws.dbdemo.controller;
 
 import com.aws.dbdemo.dto.User;
+import com.aws.dbdemo.dto.UserDetails;
 import com.aws.dbdemo.model.UserModel;
 import com.aws.dbdemo.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.apache.coyote.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,10 +37,18 @@ public class GetUserController {
 
 
     @PostMapping("/saveUser")
+    @Transactional
     public ResponseEntity<String> saveUser(@RequestBody UserModel UserModel){
+
+        UserDetails userDetails = new UserDetails();
+        userDetails.setUserAreaDetails(UserModel.getUserDetailsModel().getUserAreaDetails());
+
         User userObject = new User();
         userObject.setUserName(UserModel.getName());
         userObject.setUserEmail(UserModel.getEmail());
+
+        userObject.setUserDetails(userDetails); // Setting the other class object here
+
         userRepository.save(userObject);
         return ResponseEntity.ok("User-Saved");
     }

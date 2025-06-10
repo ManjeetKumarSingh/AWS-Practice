@@ -16,5 +16,9 @@ public class User {
     private  String userName;
     private  String userEmail;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "fk_userdetails_id")
+    private UserDetails userDetails;
+
 
 }
